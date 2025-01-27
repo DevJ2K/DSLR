@@ -3,13 +3,14 @@ import pandas as pd
 
 class Histogram:
     def __init__(self, path):
-        self.df = pd.read_csv(path)       
+        self.df = pd.read_csv(path)
         self.df.dropna(inplace=True)
         self.df_only_nb = self.df.iloc[:, 6:]
 
-    def render_histogram(self):
+    def render(self):
         nb_col = 4
         nb_row = 4
+        plt.style.use('ggplot')
         _, ax = plt.subplots(nb_row, nb_col, tight_layout=True, figsize=(15, 8))
         for i, col in enumerate(self.df_only_nb):
             plot = ax[int(i / nb_row), i % nb_col]
@@ -27,7 +28,7 @@ class Histogram:
 
 def main():
     histogram = Histogram('datasets/dataset_train.csv')
-    histogram.render_histogram()
+    histogram.render()
 
 
 if __name__ == '__main__':
