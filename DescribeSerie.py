@@ -5,23 +5,43 @@ class DescribeSerie:
     def __init__(self, serie: pd.Series):
         self.__serie = pd.Series(filter(lambda x: not math.isnan(x), serie))
 
+    def no_value(self, function):
+        def wrapper():
+            print("Here1")
+            if (len(self.__serie) == 0):
+                return float('nan')
+            return function()
+        return wrapper()
+
+    @no_value
     def count(self) -> float:
+        print("Here")
         return float(len(self.__serie))
         
 
     def mean(self) -> float:
+        if (len(self.__serie) == 0):
+            return float('nan')
         pass
 
     def standard_deviation(self) -> float:
+        if (len(self.__serie) == 0):
+            return float('nan')
         pass
 
     def min(self) -> float:
+        if (len(self.__serie) == 0):
+            return float('nan')
         pass
 
     def max(self) -> float:
+        if (len(self.__serie) == 0):
+            return float('nan')
         pass
 
-    def percentile(self, pourcentage: int) -> float:
+    def percentile(self, percentage: int) -> float:
+        if (len(self.__serie) == 0):
+            return float('nan')
         pass
 
     @staticmethod
