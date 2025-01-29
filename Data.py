@@ -25,7 +25,7 @@ class Data:
     def describe(self):
 
         df = self.df_only_nb
-        describe_value = {
+        describe_values = {
             "column_names": [],
             "count": {},
             "mean": {},
@@ -38,26 +38,25 @@ class Data:
         }
 
         print(BHYELLOW, "[DESCRIBE] : Pandas", RESET, sep="")
-        # print(df.describe())
-        print(df['Arithmancy'].describe())
+        print(df.describe())
 
 
         print(BHYELLOW, "[DESCRIBE] : Own", RESET, sep="")
-        import random
         for name in df:
-            describe_value['column_names'].append(name)
-            describe_value['count'][name] = random.uniform(0, 10000)
-            describe_value['mean'][name] = 0
-            describe_value['std'][name] = 0
-            describe_value['min'][name] = 0
-            describe_value['25%'][name] = 0
-            describe_value['50%'][name] = 0
-            describe_value['75%'][name] = 0
-            describe_value['max'][name] = 0
+            describe_values['column_names'].append(name)
+            describeSerie = DescribeSerie(df[name])
+            describe_values['count'][name] = describeSerie.count()
+            describe_values['mean'][name] = describeSerie.mean()
+            describe_values['std'][name] = describeSerie.standard_deviation()
+            describe_values['min'][name] = describeSerie.min()
+            describe_values['25%'][name] = describeSerie.percentile(25)
+            describe_values['50%'][name] = describeSerie.percentile(50)
+            describe_values['75%'][name] = describeSerie.percentile(75)
+            describe_values['max'][name] = describeSerie.max()
 
-        print(df['Arithmancy'].describe())
-        describe_serie = DescribeSerie(df['Arithmancy'])
-        print(describe_serie.count())
+        # print(df['Arithmancy'].describe())
+        # describe_serie = DescribeSerie(df['Arithmancy'])
+        # print(describe_serie.count())
         # print(describe_serie.mean())
         # print(describe_serie.standard_deviation())
         # print(describe_serie.min())
@@ -67,7 +66,7 @@ class Data:
         # print(describe_serie.max())
 
 
-        # Describe.from_dict(describe_value)
+        DescribeSerie.from_dict(describe_values)
         # print(describe_value)
 
     def visualize(self, type_of_visualization: str):
@@ -78,14 +77,15 @@ class Data:
                 return
             case "pair_plot":
                 return
-    
+
 
 
 if __name__ == "__main__":
-    try:
+    # try:
         data = Data("datasets/dataset_train.csv")
+        # data = Data("datasets/dataset_test.csv")
         data.describe()
-    except Exception as e:
-        print_error(e)
+    # except Exception as e:
+    #     print_error(e)
     # Data("datasets/dataset_test.csv")
     # Data("notright")
