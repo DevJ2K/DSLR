@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+from utils import save_plot
 
 class ScatterPlot:
     def __init__(self, path):
@@ -16,6 +17,7 @@ class ScatterPlot:
             for j, feature_2 in enumerate(self.df_only_nb):
                 plot = ax[i, j]
                 plot.scatter(self.df[feature_1], self.df[feature_2])
+        save_plot('scatter_plot')
         plt.show()
 
 

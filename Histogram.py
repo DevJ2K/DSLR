@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+from utils import save_plot
 
 class Histogram:
     def __init__(self, path):
@@ -23,6 +24,7 @@ class Histogram:
         handles, labels = ax[0, 0].get_legend_handles_labels()
         plt.legend(handles, labels, loc='best', borderpad=1.5, prop={'size': 12})
         ax[nb_row-1, nb_col-3].set_title('Hogwarts students repartition by course', fontsize=20, x=1, y=0.3, fontweight='medium')
+        save_plot('histogram')
         plt.show()
 
 
