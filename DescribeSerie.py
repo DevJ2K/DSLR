@@ -12,10 +12,14 @@ class DescribeSerie:
             return function(self)
         return wrapper
 
-    # @nan_checker
     def count(self) -> float:
         return float(len(self.__serie))
 
+    def sum(self, array: list[float]) -> float:
+        total_sum = 0
+        for num in array:
+            total_sum += num
+        return total_sum
 
     @nan_checker
     def mean(self) -> float:
@@ -29,7 +33,7 @@ class DescribeSerie:
     Calculates and returns the variance of a tuple
     """
         mean = self.mean()
-        return sum(((xi - mean) ** 2 for xi in self.__serie)) / (len(self.__serie) - 1)
+        return self.sum(((xi - mean) ** 2 for xi in self.__serie)) / (len(self.__serie) - 1)
 
     @nan_checker
     def standard_deviation(self) -> float:
