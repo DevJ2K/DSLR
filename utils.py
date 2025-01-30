@@ -1,5 +1,6 @@
 from Colors import RED, BHRED, RESET
-
+import os, sys
+import matplotlib.pyplot as plt
 
 def print_error(e: Exception) -> None:
     line_size = 60
@@ -14,3 +15,12 @@ def print_error(e: Exception) -> None:
     print(BHRED, "=" * line_size, RESET, sep="")
 
 
+
+def save_plot(filename: str) -> None:
+    try:
+        if not os.path.isdir('plots'):
+            os.mkdir('plots')
+        plt.savefig(f'plots/{filename}.png')
+    except Exception as e:
+        print(f'Error: {e}', file=sys.stderr)
+        exit(1)
