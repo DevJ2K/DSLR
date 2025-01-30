@@ -20,7 +20,7 @@ class Data:
             print(f"{BHRED}Fail to read file '{RED}{filepath}{BHRED}'.{RESET}")
             raise DataError()
 
-    def describe(self, outfile: str = None):
+    def describe(self, outfile: str = None, FULL_FIELD: bool = False):
 
         df = self.df_only_nb
         describe_values = {
@@ -34,6 +34,8 @@ class Data:
             "75%": {},
             "max": {}
         }
+        if FULL_FIELD:
+            describe_values["variance"] = {}
 
         # print(BHYELLOW, "[DESCRIBE] : Pandas", RESET, sep="")
         # print(df.describe())
@@ -50,6 +52,8 @@ class Data:
             describe_values['50%'][name] = describeSerie.percentile(50)
             describe_values['75%'][name] = describeSerie.percentile(75)
             describe_values['max'][name] = describeSerie.max()
+            if FULL_FIELD:
+                describe_values['variance'][name] = describeSerie.variance()
 
         if (outfile != None):
             with open(outfile, "w") as fd:
@@ -74,6 +78,7 @@ if __name__ == "__main__":
         data = Data("datasets/dataset_train.csv")
         # data = Data("datasets/dataset_test.csv")
         data.describe()
+        data.describe(FULL_FIELD=True)
     # except Exception as e:
     #     print_error(e)
     # Data("datasets/dataset_test.csv")

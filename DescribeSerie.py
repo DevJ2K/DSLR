@@ -28,6 +28,7 @@ class DescribeSerie:
             total_sum += num
         return total_sum / len(self.__serie)
 
+    @nan_checker
     def variance(self) -> float:
         """
     Calculates and returns the variance of a tuple
@@ -83,9 +84,12 @@ class DescribeSerie:
     @staticmethod
     def from_dict(values: dict, file = None):
         values_width = {}
-        desc_width = 5
+        desc_width = 0
         descriptions: list[str] = list(filter(lambda x: x != "column_names", values.keys()))
         column_names: list[str] = values['column_names']
+
+        for desc in descriptions:
+            desc_width = max(desc_width, len(desc))
 
         for name in column_names:
             max_width = len(name)
