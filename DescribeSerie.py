@@ -77,7 +77,7 @@ class DescribeSerie:
         return tab[int_pos] + nb_to_add
 
     @staticmethod
-    def from_dict(values: dict):
+    def from_dict(values: dict, file = None):
         values_width = {}
         desc_width = 5
         descriptions: list[str] = list(filter(lambda x: x != "column_names", values.keys()))
@@ -90,12 +90,12 @@ class DescribeSerie:
                 max_width = max(max_width, len(number_str))
             values_width[name] = max_width + 2
 
-        print(" " * desc_width, end="")
+        print(" " * desc_width, end="", file=file)
         for name in column_names:
-            print(name.rjust(values_width[name]), end="")
-        print()
+            print(name.rjust(values_width[name]), end="", file=file)
+        print(file=file)
         for desc in descriptions:
-            print(desc.ljust(desc_width), end="")
+            print(desc.ljust(desc_width), end="", file=file)
             for name in column_names:
                 number = values[desc][name]
                 if math.isnan(number):
@@ -104,5 +104,5 @@ class DescribeSerie:
                     number_str = "0.0"
                 else:
                     number_str = f"{values[desc][name]:.6f}"
-                print(number_str.rjust(values_width[name]), end="")
-            print()
+                print(number_str.rjust(values_width[name]), end="", file=file)
+            print(file=file)
