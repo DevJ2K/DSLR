@@ -1,7 +1,5 @@
 from Colors import *
-from utils import print_error
 from DescribeSerie import DescribeSerie
-import numpy as np
 import os
 import pandas as pd
 
@@ -22,7 +20,7 @@ class Data:
             print(f"{BHRED}Fail to read file '{RED}{filepath}{BHRED}'.{RESET}")
             raise DataError()
 
-    def describe(self):
+    def describe(self, outfile: str = None):
 
         df = self.df_only_nb
         describe_values = {
@@ -37,11 +35,10 @@ class Data:
             "max": {}
         }
 
-        print(BHYELLOW, "[DESCRIBE] : Pandas", RESET, sep="")
-        print(df.describe())
+        # print(BHYELLOW, "[DESCRIBE] : Pandas", RESET, sep="")
+        # print(df.describe())
+        # print(BHYELLOW, "[DESCRIBE] : Own", RESET, sep="")
 
-
-        print(BHYELLOW, "[DESCRIBE] : Own", RESET, sep="")
         for name in df:
             describe_values['column_names'].append(name)
             describeSerie = DescribeSerie(df[name])
@@ -54,20 +51,12 @@ class Data:
             describe_values['75%'][name] = describeSerie.percentile(75)
             describe_values['max'][name] = describeSerie.max()
 
-        # print(df['Arithmancy'].describe())
-        # describe_serie = DescribeSerie(df['Arithmancy'])
-        # print(describe_serie.count())
-        # print(describe_serie.mean())
-        # print(describe_serie.standard_deviation())
-        # print(describe_serie.min())
-        # print(describe_serie.percentile(percentage=25))
-        # print(describe_serie.percentile(percentage=50))
-        # print(describe_serie.percentile(percentage=75))
-        # print(describe_serie.max())
+        if (outfile != None):
+            with open(outfile, "w") as fd:
+                DescribeSerie.from_dict(describe_values, file=fd)
+        else:
+            DescribeSerie.from_dict(describe_values, file=None)
 
-
-        DescribeSerie.from_dict(describe_values)
-        # print(describe_value)
 
     def visualize(self, type_of_visualization: str):
         match type_of_visualization:
