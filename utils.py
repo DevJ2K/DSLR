@@ -1,6 +1,7 @@
 from Colors import RED, BHRED, RESET
 import os, sys
 import matplotlib.pyplot as plt
+import numpy as np
 
 def print_error(e: Exception) -> None:
     line_size = 60
@@ -24,3 +25,8 @@ def save_plot(filename: str) -> None:
     except Exception as e:
         print_error(e)
         exit(1)
+
+def min_max_scaling(X):
+    min_val = np.min(X, axis=0)
+    max_val = np.max(X, axis=0)
+    return (X - min_val) / (max_val - min_val)
