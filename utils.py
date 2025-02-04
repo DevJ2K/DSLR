@@ -1,4 +1,4 @@
-from Colors import RED, BHRED, RESET
+from Colors import RED, BHRED, RESET, CYANB, BWHITE, UGREEN
 import os, sys
 import matplotlib.pyplot as plt
 import numpy as np
@@ -15,7 +15,8 @@ def print_error(e: Exception) -> None:
         print(f"{BHRED}Initial Cause Description: {RED}{e.__context__}{RESET}", file=sys.stderr)
     print(BHRED, "=" * line_size, RESET, sep="", file=sys.stderr)
 
-
+def print_info(message: str) -> None:
+    print(f'{CYANB}{BWHITE}[INFO]{RESET}{BWHITE} {message}{RESET}')
 
 def save_plot(filename: str) -> None:
     try:
@@ -31,7 +32,17 @@ def min_max_scaling(X):
     max_val = np.max(X, axis=0)
     return (X - min_val) / (max_val - min_val)
 
+def plot_decorator(func):
+    def wrapper(x):
+        func(x)
+        print_info(f'{func.__doc__.strip()}...')
+    return wrapper
+
+@plot_decorator
 def display_loss_plot(losses):
+    """
+    Display Loss Function plot
+    """
     fig, ax = plt.subplots(2, 2, tight_layout=True)
     fig.suptitle('Loss Function')
     for i in range(4):
@@ -39,8 +50,11 @@ def display_loss_plot(losses):
         subplot.set_title(f'Class {i}')
         subplot.plot(losses[i], c='r')
 
-
+@plot_decorator
 def display_accuracy_score_plot(scores):
+    """
+    Display Accuracy Score plot
+    """
     fig, ax = plt.subplots(2, 2, tight_layout=True)
     fig.suptitle('Accuracy Score')
     for i in range(4):
