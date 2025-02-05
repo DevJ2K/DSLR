@@ -61,3 +61,7 @@ def display_accuracy_score_plot(scores):
         subplot = ax[int(i / 2), i % 2]
         subplot.set_title(f'Class {i}')
         subplot.plot(scores[i])
+
+def clean_dataset(df):
+    df.dropna(inplace=True)
+    df.drop('Defense Against the Dark Arts', axis=1, inplace=True)

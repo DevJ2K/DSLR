@@ -89,7 +89,7 @@ def main():
         'that will be used for the prediction.')
     parser.add_argument('-dataset', type=str, default='datasets/dataset_train.csv',
         help='Path to a train datatest file to train the model')
-    parser.add_argument('-epochs', type=int, default=500,
+    parser.add_argument('-epochs', type=int, default=700,
         help='Total number of iterations of all the training data '
         'in one cycle for training the model')
     parser.add_argument('-learning-rate', type=int, default=0.1,
@@ -104,7 +104,7 @@ def main():
         print(f"{BHRED}Fail to read file '{RED}{args.dataset}{BHRED}'.{RESET}")
         raise e
 
-    df.dropna(inplace=True)
+    clean_dataset(df)
     classes = { value: index for index, value in enumerate(df['Hogwarts House'].unique()) }
     y = df.replace({'Hogwarts House': classes})['Hogwarts House']
     x_train = df.select_dtypes('float64')
