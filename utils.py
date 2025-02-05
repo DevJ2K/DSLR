@@ -32,13 +32,13 @@ def min_max_scaling(X):
     max_val = np.max(X, axis=0)
     return (X - min_val) / (max_val - min_val)
 
-def plot_decorator(func):
+def plot_print_info(func):
     def wrapper(x):
         func(x)
         print_info(f'{func.__doc__.strip()}...')
     return wrapper
 
-@plot_decorator
+@plot_print_info
 def display_loss_plot(losses):
     """
     Display Loss Function plot
@@ -50,7 +50,7 @@ def display_loss_plot(losses):
         subplot.set_title(f'Class {i}')
         subplot.plot(losses[i], c='r')
 
-@plot_decorator
+@plot_print_info
 def display_accuracy_score_plot(scores):
     """
     Display Accuracy Score plot
