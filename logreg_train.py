@@ -49,19 +49,19 @@ class LogisticRegression:
                 x_dot_weights = np.dot(self.weights, self.X.T) + self.bias
                 pred = np.array([self.sigmoid_function(x) for x in x_dot_weights])
                 error_weights, error_bias = self.gradient_descent(y, pred)
-                losses.append(self.binary_cross_entropy(y, pred))
-                accuracy_score.append(self.accuracy_score(y, self.binary_prediction(pred)))
                 self.update_model_parameters(error_weights, error_bias)
+                accuracy_score.append(self.accuracy_score(y, self.binary_prediction()))
+                losses.append(self.binary_cross_entropy(y, pred))
                 if epoch % (self.epochs / 10) == 0:
                     print(f'{BCYAN}Epoch {epoch}    {BHRED}Loss: {losses[-1]:.4f}{RESET}')
             self.losses.append(losses)
             self.accuracy_scores.append(accuracy_score)
             self.models.append((self.weights.copy(), self.bias))
 
-    def binary_prediction(self, pred: np.ndarray) -> list:
-        # x_dot_weights = np.dot(self.X, self.weights) + self.bias
-        # proba = np.array([self.sigmoid_function(value) for value in x_dot_weights])
-        return [1 if p >= 0.5 else 0 for p in pred]
+    def binary_prediction(self) -> list:
+        x_dot_weights = np.dot(self.X, self.weights) + self.bias
+        proba = np.array([self.sigmoid_function(value) for value in x_dot_weights])
+        return [1 if p >= 0.5 else 0 for p in proba]
 
     def predict(self) -> np.ndarray:
         probabilities = []
