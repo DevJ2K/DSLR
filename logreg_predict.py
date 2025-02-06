@@ -27,13 +27,16 @@ def main():
     print(args.weights)
 
     df = pd.read_csv(args.dataset)
-    clean_dataset(df)
-    classes = { value: index for index, value in enumerate(df['Hogwarts House'].unique()) }
-    y = df.replace({'Hogwarts House': classes})['Hogwarts House']
-    x_train = df.select_dtypes('float64')
-    x_train = min_max_scaling(x_train)
+    df.drop('Defense Against the Dark Arts', axis=1, inplace=True)
 
-    log_reg = LogisticRegression(X=x_train, y=y, epochs=None, learning_rate=None)
+    # classes = { value: index for index, value in enumerate(df['Hogwarts House'].unique()) }
+    # print_info(f'Classes: {classes}')
+
+    df = df.select_dtypes('float')
+    df.dropna(axis=1, how='all', inplace=True)
+    df = min_max_scaling(df)
+
+    log_reg = LogisticRegression(X=df, y=[], epochs=None, learning_rate=None)
 
     try:
         log_reg.load_weights(args.weights)
@@ -41,7 +44,11 @@ def main():
         print_error(e)
         exit(1)
     # print(log_reg.models)
-    log_reg.predict()
+
+    prediction = log_reg.predict()
+    # for i in range(len(prediction)):
+    #     print_info(f"Prediction for student {i}: {prediction[i]}")
+    print_info("Prediction: " + str(log_reg.predict()))
 
 
 if __name__ == "__main__":

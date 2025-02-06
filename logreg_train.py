@@ -18,6 +18,12 @@ class LogisticRegression:
         self.losses = []
         self.accuracy_scores = []
         self.models = []
+        self.classes = {
+            'Ravenclaw': 0,
+            'Slytherin': 1,
+            'Gryffindor': 2,
+            'Hufflepuff': 3
+        }
 
     def sigmoid_function(self, x: float) -> float:
         return 1 / (1 + np.exp(-x))
@@ -106,6 +112,7 @@ def main():
 
     clean_dataset(df)
     classes = { value: index for index, value in enumerate(df['Hogwarts House'].unique()) }
+    print_info(f'Classes: {classes}')
     y = df.replace({'Hogwarts House': classes})['Hogwarts House']
     x_train = df.select_dtypes('float64')
     x_train = min_max_scaling(x_train)
@@ -122,11 +129,12 @@ if __name__ == "__main__":
     main()
 
     # df = pd.read_csv('datasets/dataset_test.csv')
+    # df.drop('Defense Against the Dark Arts', axis=1, inplace=True)
     # df = df.select_dtypes('float')
     # df.dropna(axis=1, how='all', inplace=True)
     # # print(df)
     # df = min_max_scaling(df)
-    # log_reg = LogisticRegression(X=df, y=[])
+    # log_reg = LogisticRegression(X=df, y=[], learning_rate=0, epochs=0)
     # log_reg.load_weights()
     # # print(log_reg.models)
     # print('predi: ', log_reg.predict())
