@@ -5,6 +5,9 @@ class DescribeSerie:
     def __init__(self, serie: pd.Series):
         self.__serie = pd.Series(filter(lambda x: not math.isnan(x), serie))
 
+    def getSeries(self):
+        return self.__serie
+
     def nan_checker(function):
         def wrapper(self):
             if (len(self.__serie) == 0):

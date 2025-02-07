@@ -17,12 +17,10 @@ def main(file: str = None) -> None:
         data = Data(file=sys.argv[1])
     else:
         data = Data(file=file)
-    data.describe()
+    data.describe(FULL_FIELD=True)
 
 if __name__ == "__main__":
     try:
-        # main("datasets/dataset_train.csv")
-        main()
+        main("datasets/dataset_test.csv")
     except Exception as e:
         print_error(e)
-    # main("datasets/dataset_test.csv")
