@@ -17,7 +17,7 @@ class Data:
             self.df = pd.read_csv(filepath)
             self.df_only_nb = self.df.select_dtypes(include='float64')
         except Exception as e:
-            print(f"{BHRED}Fail to read file '{RED}{filepath}{BHRED}'.{RESET}")
+            print(f"{BHRED}Failed to read file: '{RED}{filepath}{BHRED}'{RESET}")
             raise DataError()
 
     def describe(self, outfile: str = None, FULL_FIELD: bool = False):
@@ -36,6 +36,7 @@ class Data:
         }
         if FULL_FIELD:
             describe_values["variance"] = {}
+            describe_values["sum"] = {}
 
         # print(BHYELLOW, "[DESCRIBE] : Pandas", RESET, sep="")
         # print(df.describe())
@@ -54,6 +55,7 @@ class Data:
             describe_values['max'][name] = describeSerie.max()
             if FULL_FIELD:
                 describe_values['variance'][name] = describeSerie.variance()
+                describe_values['sum'][name] = describeSerie.sum(describeSerie.getSeries())
 
         if (outfile != None):
             with open(outfile, "w") as fd:
