@@ -4,8 +4,8 @@ import pandas as pd
 from Colors import *
 import argparse
 from utils import *
-import pickle
 from logreg_train import LogisticRegression
+import csv
 
 def main():
     parser = argparse.ArgumentParser(description="Use a dataset to predict the output of our logistic regression model.")
@@ -29,9 +29,6 @@ def main():
     df = pd.read_csv(args.dataset)
     df.drop('Defense Against the Dark Arts', axis=1, inplace=True)
 
-    # classes = { value: index for index, value in enumerate(df['Hogwarts House'].unique()) }
-    # print_info(f'Classes: {classes}')
-
     df = df.select_dtypes('float')
     df.dropna(axis=1, how='all', inplace=True)
     df = min_max_scaling(df)
@@ -45,11 +42,23 @@ def main():
         exit(1)
     # print(log_reg.models)
 
-    prediction = log_reg.predict()
+    predictions = log_reg.predict()
+    with open('houses.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+
+        field = ["Index", "Hogwarts House"]
+        writer.writerow(field)
+        for i in range(len(predictions)):
+            writer.writerow([i, log_reg.predict_to_str(predictions[i])])
+
+
     # for i in range(len(prediction)):
-    #     print_info(f"Prediction for student {i}: {prediction[i]}")
-    print_info("Prediction: " + str(log_reg.predict()))
+    #     print_info(f"Prediction for student {i}: {log_reg.predict_to_str(prediction[i])}")
+    # print_info("Prediction: " + str(log_reg.predict()))
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print_error(e)

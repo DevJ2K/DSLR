@@ -8,6 +8,14 @@ from utils import *
 pd.set_option('future.no_silent_downcasting', True)
 
 class LogisticRegression:
+    classes_dict = {
+        'Ravenclaw': 0,
+        'Slytherin': 1,
+        'Gryffindor': 2,
+        'Hufflepuff': 3
+    }
+    classes_array = ['Ravenclaw', 'Slytherin', 'Gryffindor', 'Hufflepuff']
+
     def __init__(self, X, y, learning_rate, epochs):
         self.X = X
         self.y = y
@@ -18,12 +26,8 @@ class LogisticRegression:
         self.losses = []
         self.accuracy_scores = []
         self.models = []
-        self.classes = {
-            'Ravenclaw': 0,
-            'Slytherin': 1,
-            'Gryffindor': 2,
-            'Hufflepuff': 3
-        }
+
+    # def __init
 
     def sigmoid_function(self, x: float) -> float:
         return 1 / (1 + np.exp(-x))
@@ -76,6 +80,10 @@ class LogisticRegression:
             proba = np.array([self.sigmoid_function(value) for value in x_dot_weights])
             probabilities.append(proba)
         return np.argmax(np.array(probabilities), axis=0)
+    
+    @staticmethod
+    def predict_to_str(predict: int) -> str:
+        return LogisticRegression.classes_array[predict]
 
     def accuracy_score(self, y_true: np.ndarray, y_pred: np.ndarray) -> float:
         return np.mean(y_pred == y_true)
@@ -111,13 +119,12 @@ def main():
         raise e
 
     clean_dataset(df)
-    classes = { value: index for index, value in enumerate(df['Hogwarts House'].unique()) }
-    print_info(f'Classes: {classes}')
-    y = df.replace({'Hogwarts House': classes})['Hogwarts House']
+    y = df.replace({'Hogwarts House': LogisticRegression.classes_dict})['Hogwarts House']
     x_train = df.select_dtypes('float64')
     x_train = min_max_scaling(x_train)
 
     log_reg = LogisticRegression(X=x_train, y=y, epochs=args.epochs, learning_rate=args.learning_rate)
+
     log_reg.fit()
     log_reg.save_weights()
 
@@ -126,15 +133,7 @@ def main():
     plt.show()
 
 if __name__ == "__main__":
-    main()
-
-    # df = pd.read_csv('datasets/dataset_test.csv')
-    # df.drop('Defense Against the Dark Arts', axis=1, inplace=True)
-    # df = df.select_dtypes('float')
-    # df.dropna(axis=1, how='all', inplace=True)
-    # # print(df)
-    # df = min_max_scaling(df)
-    # log_reg = LogisticRegression(X=df, y=[], learning_rate=0, epochs=0)
-    # log_reg.load_weights()
-    # # print(log_reg.models)
-    # print('predi: ', log_reg.predict())
+    try:
+        main()
+    except Exception as e:
+        print_error(e)

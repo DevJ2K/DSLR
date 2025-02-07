@@ -1,4 +1,5 @@
 from Colors import RED, BHRED, RESET, CYANB, BWHITE, UGREEN
+from logreg_train import LogisticRegression
 import os, sys
 import matplotlib.pyplot as plt
 import numpy as np
@@ -47,7 +48,7 @@ def display_loss_plot(losses):
     fig.suptitle('Loss Function')
     for i in range(4):
         subplot = ax[int(i / 2), i % 2]
-        subplot.set_title(f'Class {i}')
+        subplot.set_title(LogisticRegression.classes_array[i])
         subplot.plot(losses[i], c='r')
 
 @plot_print_info
@@ -59,7 +60,7 @@ def display_accuracy_score_plot(scores):
     fig.suptitle('Accuracy Score')
     for i in range(4):
         subplot = ax[int(i / 2), i % 2]
-        subplot.set_title(f'Class {i}')
+        subplot.set_title(LogisticRegression.classes_array[i])
         subplot.plot(scores[i])
 
 def clean_dataset(df):
