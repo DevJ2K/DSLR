@@ -23,14 +23,12 @@ def main():
 
     args = parser.parse_args()
 
-    print(args.dataset)
-    print(args.weights)
-
     df = pd.read_csv(args.dataset)
-    df.drop('Defense Against the Dark Arts', axis=1, inplace=True)
 
     df = df.select_dtypes('float')
     df.dropna(axis=1, how='all', inplace=True)
+    clean_dataset(df)
+    df.fillna(df.mean(), inplace=True)
     df = min_max_scaling(df)
 
     log_reg = LogisticRegression(X=df, y=[], epochs=None, learning_rate=None)
@@ -40,7 +38,6 @@ def main():
     except Exception as e:
         print_error(e)
         exit(1)
-    # print(log_reg.models)
 
     predictions = log_reg.predict()
     with open('houses.csv', 'w', newline='') as csvfile:
@@ -51,6 +48,7 @@ def main():
         for i in range(len(predictions)):
             writer.writerow([i, log_reg.predict_to_str(predictions[i])])
 
+    print(f"{GREEN}Prediction file '{BHGREEN}houses.csv{GREEN}' has been successfully created !{RESET}")
 
     # for i in range(len(prediction)):
     #     print_info(f"Prediction for student {i}: {log_reg.predict_to_str(prediction[i])}")

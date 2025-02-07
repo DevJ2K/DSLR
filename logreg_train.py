@@ -27,8 +27,6 @@ class LogisticRegression:
         self.accuracy_scores = []
         self.models = []
 
-    # def __init
-
     def sigmoid_function(self, x: float) -> float:
         return 1 / (1 + np.exp(-x))
 
@@ -106,7 +104,7 @@ def main():
     parser.add_argument('-epochs', type=int, default=700,
         help='Total number of iterations of all the training data '
         'in one cycle for training the model')
-    parser.add_argument('-learning-rate', type=int, default=0.1,
+    parser.add_argument('-learning-rate', type=float, default=0.1,
         help='Hyperparameter that controls how much to change '
         'the model when the model weights are updated.')
 
@@ -121,6 +119,7 @@ def main():
     clean_dataset(df)
     y = df.replace({'Hogwarts House': LogisticRegression.classes_dict})['Hogwarts House']
     x_train = df.select_dtypes('float64')
+    x_train.fillna(x_train.mean(), inplace=True)
     x_train = min_max_scaling(x_train)
 
     log_reg = LogisticRegression(X=x_train, y=y, epochs=args.epochs, learning_rate=args.learning_rate)
