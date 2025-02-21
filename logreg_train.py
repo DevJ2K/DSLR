@@ -116,9 +116,12 @@ def main():
         print(f"{BHRED}Fail to read file '{RED}{args.dataset}{BHRED}'.{RESET}")
         raise e
 
-    clean_dataset(df)
+    # clean_dataset(df)
     y = df.replace({'Hogwarts House': LogisticRegression.classes_dict})['Hogwarts House']
-    x_train = df.select_dtypes('float64')
+    
+    # x_train = df.select_dtypes('float64')
+    x_train = df[['Herbology', 'Astronomy', 'Ancient Runes']]
+    
     x_train.fillna(x_train.mean(), inplace=True)
     x_train = min_max_scaling(x_train)
 

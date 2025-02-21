@@ -25,9 +25,12 @@ def main():
 
     df = pd.read_csv(args.dataset)
 
-    df = df.select_dtypes('float')
+    # df = df.select_dtypes('float')
+    df = df[['Herbology', 'Astronomy', 'Ancient Runes']]
+
     df.dropna(axis=1, how='all', inplace=True)
-    clean_dataset(df)
+    # clean_dataset(df)
+    
     df.fillna(df.mean(), inplace=True)
     df = min_max_scaling(df)
 
