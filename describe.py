@@ -2,9 +2,7 @@
 
 from Colors import *
 from utils import print_error
-from Data import Data, DataError
-import csv
-import numpy
+from Data import Data
 import os
 import sys
 
