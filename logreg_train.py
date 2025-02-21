@@ -101,7 +101,7 @@ def main():
         'that will be used for the prediction.')
     parser.add_argument('-dataset', type=str, default='datasets/dataset_train.csv',
         help='Path to a train datatest file to train the model')
-    parser.add_argument('-epochs', type=int, default=700,
+    parser.add_argument('-epochs', type=int, default=2800,
         help='Total number of iterations of all the training data '
         'in one cycle for training the model')
     parser.add_argument('-learning-rate', type=float, default=0.1,
