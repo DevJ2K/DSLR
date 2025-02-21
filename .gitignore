@@ -3,3 +3,4 @@ venv
 __pycache__
 *.pkl
 houses.csv
+.pytest_cache
